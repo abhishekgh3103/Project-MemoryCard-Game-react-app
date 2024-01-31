@@ -1,7 +1,5 @@
-img {
-  width: 200px;
-  height: 200px;
-}
-p {
-  color: black;
+.cardListDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }

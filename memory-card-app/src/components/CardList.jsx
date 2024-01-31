@@ -12,7 +12,9 @@ export default function CardList() {
       const resp = await fetch(URL);
       const data = await resp.json();
       console.log(data);
-      data ? setResult(...result, data.data) : console.log("...Loading");
+      data
+        ? setResult((prevResult) => [...prevResult, ...data.data])
+        : console.log("...Loading");
       data
         ? console.log(data.data[0].featured_gif.images.original.url)
         : console.log("...Loading");
@@ -20,19 +22,25 @@ export default function CardList() {
     fetchApi();
   }, []);
   console.log(result);
+
   return (
-    <div>
-      {result ? (
+    <div className={styles.cardListDiv}>
+      {result.length > 0 ? (
         result.map((item) => {
-          item ? (
-            <CardItem
-              key={item.id}
-              imgSrc={item.featured_gif.images.original.url}
-              displayName={item.display_name}
-            />
-          ) : (
-            console.log("Null Value")
-          );
+          if (
+            item &&
+            item.featured_gif &&
+            item.featured_gif.images &&
+            item.featured_gif.images.original
+          ) {
+            return (
+              <CardItem
+                key={item.id}
+                imgSrc={item.featured_gif.images.original.url}
+                displayName={item.display_name}
+              />
+            );
+          }
         })
       ) : (
         <p>Loading...</p>
