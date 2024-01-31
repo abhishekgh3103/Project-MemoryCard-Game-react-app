@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
+import CardContainer from "./components/CardContainer";
 
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
@@ -8,6 +9,7 @@ function App() {
   return (
     <>
       <Header currentScore={currentScore} bestScore={bestScore} />
+      <CardContainer setCurrentScore={setCurrentScore} />
     </>
   );
 }
