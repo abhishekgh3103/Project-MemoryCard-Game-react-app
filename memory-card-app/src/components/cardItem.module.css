@@ -6,6 +6,11 @@
   background-color: #fbe9e7;
   box-shadow: 0px 4px 6px #ffab91;
   border-radius: 5px;
+  padding: 5px;
+}
+
+.itemDiv:hover {
+  box-shadow: 0px 6px 8px #ff8a65;
 }
 
 .itemDiv img {

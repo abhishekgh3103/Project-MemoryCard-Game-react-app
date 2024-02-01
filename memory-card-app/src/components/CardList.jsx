@@ -6,27 +6,37 @@ export default function CardList() {
   const URL =
     "https://api.giphy.com/v1/stickers/packs/3138/children?api_key=tYEqQjQ9jJLiaYYYCW08l3eS958BIFEL";
   const [result, setResult] = useState([]);
-  const res = [];
+  const [sortedResult, setSortedResult] = useState([]);
+  const [currentList, setCurrentList] = useState([]);
+
   useEffect(() => {
     async function fetchApi() {
       const resp = await fetch(URL);
       const data = await resp.json();
-      console.log(data);
-      data
+      data.data
         ? setResult((prevResult) => [...prevResult, ...data.data])
-        : console.log("...Loading");
-      data
-        ? console.log(data.data[0].featured_gif.images.original.url)
         : console.log("...Loading");
     }
     fetchApi();
   }, []);
-  console.log(result);
+
+  useEffect(() => {
+    function shuffleArray(array) {
+      const shuffledArray = [...array];
+      const randomComparator = () => Math.random() - 0.5;
+
+      const doneArray = shuffledArray.sort(randomComparator);
+      setSortedResult([...doneArray]);
+      console.log("currentList: ", currentList);
+      console.log("sortedResult: ", sortedResult);
+    }
+    shuffleArray(result);
+  }, [result, currentList]);
 
   return (
     <div className={styles.cardListDiv}>
-      {result.length > 0 ? (
-        result.map((item) => {
+      {sortedResult.length > 0 ? (
+        sortedResult.slice(0, 12).map((item) => {
           if (
             item &&
             item.featured_gif &&
@@ -36,8 +46,10 @@ export default function CardList() {
             return (
               <CardItem
                 key={item.id}
+                cardId={item.id}
                 imgSrc={item.featured_gif.images.original.url}
                 displayName={item.display_name}
+                setCurrentList={setCurrentList}
               />
             );
           }
